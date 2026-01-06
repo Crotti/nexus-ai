@@ -41,14 +41,17 @@ Os dados são injetados dinamicamente no System Prompt. Em vez de enviar o CSV i
 ### CONTEXTO DO USUÁRIO
 - Nome: João Silva
 - Perfil de Risco: Moderado
-- Meta Principal: Reserva de Emergência (Progresso: 45%)
+- Meta Principal: Reserva de Emergência
+- Progresso atual da meta: 45%
+- Valor atual da meta: R$ 45.000,00
+- Valor definido para a meta: R$ 100.000,00
 
-### STATUS FINANCEIRO ATUAL (Calculado via Python)
+### STATUS FINANCEIRO ATUAL
 - Saldo em Conta: R$ 5.400,00
 - Gastos em 'Lazer' este mês: R$ 580,00 (Limite: R$ 600,00)
 - Gastos em 'Alimentação' este mês: R$ 400,00 (Limite: R$ 1.200,00)
 
-### ÚLTIMAS TRANSAÇÕES (CSV)
+### ÚLTIMAS TRANSAÇÕES
 1. 2026-01-02 | Salário | +4500.00
 2. 2025-12-30 | Farmácia | -150.00
 3. 2025-12-28 | Restaurante | -120.00
