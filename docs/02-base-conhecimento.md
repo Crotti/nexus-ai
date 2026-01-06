@@ -6,13 +6,8 @@ Descreva se usou os arquivos da pasta `data`, por exemplo:
 
 | Arquivo | Formato | Utilização no Agente |
 |---------|---------|---------------------|
-| `historico_atendimento.csv` | CSV | Contextualizar interações anteriores |
-| `perfil_investidor.json` | JSON | Personalizar recomendações |
-| `produtos_financeiros.json` | JSON | Sugerir produtos adequados ao perfil |
-| `transacoes.csv` | CSV | Analisar padrão de gastos do cliente |
-
-> [!TIP]
-> **Quer um dataset mais robusto?** Você pode utilizar datasets públicos do [Hugging Face](https://huggingface.co/datasets) relacionados a finanças, desde que sejam adequados ao contexto do desafio.
+| `perfil_usuario.json` | JSON | Contém os dados pessoais, as metas de longo prazo e os limites de orçamento mensal em um único lugar |
+| `transacoes.csv` | CSV | Contém o extrato bruto (data, valor, categoria). Usado para cálculos de saldo e identificação de padrões |
 
 ---
 
@@ -20,7 +15,7 @@ Descreva se usou os arquivos da pasta `data`, por exemplo:
 
 > Você modificou ou expandiu os dados mockados? Descreva aqui.
 
-[Sua descrição aqui]
+Para o uso proposto, os dados necessários seriam: o perfil do usuário com seus dados, metas e orçamentos mensais por categoria, então foi utilizado o arquivo perfil_investidor.json como base e expandido para contemplar todos os dados necessários. Além disso, utiliza-se o arquivo transacoes.csv como mockado.
 
 ---
 
@@ -29,12 +24,12 @@ Descreva se usou os arquivos da pasta `data`, por exemplo:
 ### Como os dados são carregados?
 > Descreva como seu agente acessa a base de conhecimento.
 
-[ex: Os JSON/CSV são carregados no início da sessão e incluídos no contexto do prompt]
+Os dados são carregados no início de cada execução ou atualização de página através de um orquestrador Python. O arquivo perfil_usuario.json é lido via biblioteca padrão json, enquanto o transacoes.csv é processado pelo Pandas. O Pandas realiza uma agregação (GroupBy) por categoria e calcula o saldo atual e o percentual de uso de cada limite antes mesmo de enviar qualquer informação para a LLM.
 
 ### Como os dados são usados no prompt?
 > Os dados vão no system prompt? São consultados dinamicamente?
 
-[Sua descrição aqui]
+Os dados são injetados dinamicamente no System Prompt. Em vez de enviar o CSV inteiro, o orquestrador envia um contexto financeiro formatado. Esse resumo contém o saldo total, o progresso das metas em porcentagem e quais categorias de gastos já ultrapassaram o limite. Assim, a LLM gasta seu processamento apenas no raciocínio consultivo, e não em cálculos matemáticos.
 
 ---
 
@@ -42,14 +37,24 @@ Descreva se usou os arquivos da pasta `data`, por exemplo:
 
 > Mostre um exemplo de como os dados são formatados para o agente.
 
-```
-Dados do Cliente:
+```Text
+### CONTEXTO DO USUÁRIO
 - Nome: João Silva
-- Perfil: Moderado
-- Saldo disponível: R$ 5.000
+- Perfil de Risco: Moderado
+- Meta Principal: Reserva de Emergência (Progresso: 45%)
 
-Últimas transações:
-- 01/11: Supermercado - R$ 450
-- 03/11: Streaming - R$ 55
+### STATUS FINANCEIRO ATUAL (Calculado via Python)
+- Saldo em Conta: R$ 5.400,00
+- Gastos em 'Lazer' este mês: R$ 580,00 (Limite: R$ 600,00)
+- Gastos em 'Alimentação' este mês: R$ 400,00 (Limite: R$ 1.200,00)
+
+### ÚLTIMAS TRANSAÇÕES (CSV)
+1. 2026-01-02 | Salário | +4500.00
+2. 2025-12-30 | Farmácia | -150.00
+3. 2025-12-28 | Restaurante | -120.00
+
+### INSTRUÇÃO
+Aja como o Nexus. O usuário está quase atingindo o limite de Lazer.
+Seja proativo e sugira uma ação baseada na meta de Reserva de Emergência.
 ...
 ```
