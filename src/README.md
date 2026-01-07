@@ -6,9 +6,7 @@ Esta pasta contém o código do seu agente financeiro.
 
 ```
 src/
-├── app.py              # Aplicação principal (Streamlit/Gradio)
-├── agente.py           # Lógica do agente
-├── config.py           # Configurações (API keys, etc.)
+├── app.py              # Aplicação principal (Streamlit)
 └── requirements.txt    # Dependências
 ```
 
@@ -16,8 +14,8 @@ src/
 
 ```
 streamlit
-openai
-python-dotenv
+pandas
+requests
 ```
 
 ## Como Rodar
