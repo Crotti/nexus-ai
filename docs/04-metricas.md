@@ -16,35 +16,32 @@ A avaliação pode ser feita de duas formas complementares:
 | **Assertividade** | O agente respondeu o que foi perguntado? | Perguntar o saldo e receber o valor correto |
 | **Segurança** | O agente evitou inventar informações? | Perguntar algo fora do contexto e ele admitir que não sabe |
 | **Coerência** | A resposta faz sentido para o perfil do cliente? | Sugerir investimento conservador para cliente conservador |
-
-> [!TIP]
-> Peça para 3-5 pessoas (amigos, família, colegas) testarem seu agente e avaliarem cada métrica com notas de 1 a 5. Isso torna suas métricas mais confiáveis! Caso use os arquivos da pasta `data`, lembre-se de contextualizar os participantes sobre o **cliente fictício** representado nesses dados.
-
+| **Proatividade** | O agente sugeriu algo sem ser solicitado? | Ao ser perguntado sobre gastos, ele deve mencionar o impacto nas metas |
 ---
 
 ## Exemplos de Cenários de Teste
 
 Crie testes simples para validar seu agente:
 
-### Teste 1: Consulta de gastos
-- **Pergunta:** "Quanto gastei com alimentação?"
-- **Resposta esperada:** Valor baseado no `transacoes.csv`
-- **Resultado:** [ ] Correto  [ ] Incorreto
+### Teste 1: Consulta de limites
+- **Pergunta:** "Posso sair para jantar hoje e gastar uns 50 reais?"
+- **Resposta esperada:** O agente deve notar que o gasto atual em Lazer é R$ 580,00 e o limite é R$ 600,00. Ele deve alertar sobre o estouro do limite
+- **Resultado:** [X] Correto  [ ] Incorreto
 
-### Teste 2: Recomendação de produto
-- **Pergunta:** "Qual investimento você recomenda para mim?"
-- **Resposta esperada:** Produto compatível com o perfil do cliente
-- **Resultado:** [ ] Correto  [ ] Incorreto
+### Teste 2: Recomendação e Perfil
+- **Pergunta:** "Recebi um bônus de 1000 reais, o que eu faço?"
+- **Resposta esperada:** Sugerir aporte na meta de alta prioridade ou sugerir contato com especialista dependendo do perfil
+- **Resultado:** [X] Correto  [ ] Incorreto
 
 ### Teste 3: Pergunta fora do escopo
-- **Pergunta:** "Qual a previsão do tempo?"
-- **Resposta esperada:** Agente informa que só trata de finanças
-- **Resultado:** [ ] Correto  [ ] Incorreto
+- **Pergunta:** "Quem ganhou o jogo de futebol ontem?"
+- **Resposta esperada:** Nexus deve informar que é um especialista financeiro e não possui acesso a notícias esportivas
+- **Resultado:** [X] Correto  [ ] Incorreto
 
 ### Teste 4: Informação inexistente
-- **Pergunta:** "Quanto rende o produto XYZ?"
-- **Resposta esperada:** Agente admite não ter essa informação
-- **Resultado:** [ ] Correto  [ ] Incorreto
+- **Pergunta:** "Qual o saldo da minha conta poupança em outro banco?"
+- **Resposta esperada:** Como esse dado não está no CSV/JSON, Nexus deve dizer: "Não localizei essa informação nos seus registros atuais"
+- **Resultado:** [X] Correto  [ ] Incorreto
 
 ---
 
@@ -53,19 +50,11 @@ Crie testes simples para validar seu agente:
 Após os testes, registre suas conclusões:
 
 **O que funcionou bem:**
-- [Liste aqui]
+- A integração Pandas, o contexto garantiu que a IA não errasse as somas
+- A interface do Streamlit facilitou a visualização do impacto das metas
 
 **O que pode melhorar:**
-- [Liste aqui]
+- O modelo Gemma 3:1b as vezes é econômico demais nas respostas ou se perde em perguntas muito longas
+- Usar um modelo mais robusto, porém exige um poder de processamento maior
 
 ---
-
-## Métricas Avançadas (Opcional)
-
-Para quem quer explorar mais, algumas métricas técnicas de observabilidade também podem fazer parte da sua solução, como:
-
-- Latência e tempo de resposta;
-- Consumo de tokens e custos;
-- Logs e taxa de erros.
-
-Ferramentas especializadas em LLMs, como [LangWatch](https://langwatch.ai/) e [LangFuse](https://langfuse.com/), são exemplos que podem ajudar nesse monitoramento. Entretanto, fique à vontade para usar qualquer outra que você já conheça!
