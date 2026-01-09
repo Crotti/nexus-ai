@@ -1,0 +1,42 @@
+{
+  "usuario": {
+    "nome": "João Silva",
+    "idade": 28,
+    "profissao": "Desenvolvedor",
+    "salario": 5000.00,
+    "perfil_risco": "Moderado",
+    "moeda": "BRL",
+    "patrimonio": 22547.35
+  },
+  "metas_financeiras": [
+    {
+      "id": "reserva_01",
+      "nome": "Reserva de Emergência",
+      "tipo": "Investimento",
+      "valor_alvo": 50000.00,
+      "valor_atual": 2000.00,
+      "prazo_limite": "2026-12-31",
+      "prioridade": "Alta"
+    },
+    {
+      "id": "viagem_02",
+      "nome": "Viagem Japão",
+      "tipo": "Gasto",
+      "valor_alvo": 20000.00,
+      "valor_atual": 5000.00,
+      "prazo_limite": "2027-06-01",
+      "prioridade": "Média"
+    }
+  ],
+  "orcamento_mensal": {
+    "limites": {
+      "Alimentação": 1200.00,
+      "Transporte": 400.00,
+      "Lazer": 600.00,
+      "Saúde": 300.00,
+      "Educação": 500.00,
+      "Outros": 200.00
+    },
+    "dia_fechamento_fatura": 10
+  }
+}

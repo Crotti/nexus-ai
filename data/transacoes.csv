@@ -1,11 +1,17 @@
-data,descricao,categoria,valor,tipo
-2025-10-01,Salário,receita,5000.00,entrada
-2025-10-02,Aluguel,moradia,1200.00,saida
-2025-10-03,Supermercado,alimentacao,450.00,saida
-2025-10-05,Netflix,lazer,55.90,saida
-2025-10-07,Farmácia,saude,89.00,saida
-2025-10-10,Restaurante,alimentacao,120.00,saida
-2025-10-12,Uber,transporte,45.00,saida
-2025-10-15,Conta de Luz,moradia,180.00,saida
-2025-10-20,Academia,saude,99.00,saida
-2025-10-25,Combustível,transporte,250.00,saida
+data,categoria,valor,descricao
+2026-01-02,Salário,5000.00,Salário Mensal
+2026-01-02,Moradia,-1500.00,Aluguel Apartamento
+2026-01-03,Alimentação,-85.40,Supermercado BH
+2026-01-04,Transporte,-50.00,Recarga Bilhete Único
+2026-01-05,Lazer,-450.00,Ingresso Show Internacional
+2026-01-06,Lazer,-130.00,Jantar Restaurante Japonês
+2026-01-07,Saúde,-45.90,Farmácia de Manipulação
+2026-01-08,Alimentação,-120.00,Feira Semanal
+2026-01-09,Outros,-30.00,Assinatura Streaming
+2026-01-10,Renda_Extra,850.00,Projeto Freelance - Landing Page
+2026-01-12,Investimentos,125.50,Dividendos Ações/FIIs
+2026-01-15,Venda_Usados,200.00,Venda de Monitor Antigo
+2026-01-18,Reembolso,45.90,Reembolso Seguro Saúde (Farmácia)
+2026-01-20,Educação,-350.00,Curso de IA Generativa
+2026-01-22,Alimentação,-60.00,Almoço Executivo
+2026-01-25,Bonus,1000.00,Premiação Performance Trimestral
