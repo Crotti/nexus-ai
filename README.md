@@ -66,7 +66,7 @@ O projeto foi construído seguindo cinco fases principais:
 │   └── 05-pitch.md                # Roteiro da apresentação
 ├── src/                           # Código fonte
 │   └── app.py                     # Aplicação principal Streamlit
-└── requirements.txt               # Dependências do projeto
+│   └── requirements.txt               # Dependências do projeto
 
 ```
 
