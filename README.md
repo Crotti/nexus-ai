@@ -1,149 +1,118 @@
-# 🤖 Agente Financeiro Inteligente com IA Generativa
+# 🤖 Nexus: Seu Co-piloto de Saúde Financeira
 
-## Contexto
-
-Os assistentes virtuais no setor financeiro estão evoluindo de simples chatbots reativos para **agentes inteligentes e proativos**. Neste desafio, você vai idealizar e prototipar um agente financeiro que utiliza IA Generativa para:
-
-- **Antecipar necessidades** ao invés de apenas responder perguntas
-- **Personalizar** sugestões com base no contexto de cada cliente
-- **Cocriar soluções** financeiras de forma consultiva
-- **Garantir segurança** e confiabilidade nas respostas (anti-alucinação)
-
-> [!TIP]
-> Na pasta [`examples/`](./examples/) você encontra referências de implementação para cada etapa deste desafio.
+O **Nexus** é um agente financeiro inteligente e proativo projetado para transformar a gestão financeira pessoal de reativa em estratégica. Através da integração de **IA Generativa local (Ollama)** e processamento determinístico de dados com **Pandas**, o Nexus conecta seus gastos diários aos seus sonhos de longo prazo.
 
 ---
 
-## O Que Você Deve Entregar
+## 🌟 Funcionalidades Principais
 
-### 1. Documentação do Agente
-
-Defina **o que** seu agente faz e **como** ele funciona:
-
-- **Caso de Uso:** Qual problema financeiro ele resolve? (ex: consultoria de investimentos, planejamento de metas, alertas de gastos)
-- **Persona e Tom de Voz:** Como o agente se comporta e se comunica?
-- **Arquitetura:** Fluxo de dados e integração com a base de conhecimento
-- **Segurança:** Como evitar alucinações e garantir respostas confiáveis?
-
-📄 **Template:** [`docs/01-documentacao-agente.md`](./docs/01-documentacao-agente.md)
+* **Antecipação de Necessidades**: Identifica riscos de estourar orçamentos antes que aconteçam.
+* **Análise Visual Moderna**: Dashboards interativos com distribuição de gastos e fluxo de caixa diário.
+* **Privacidade Total**: Todo o processamento de dados e inteligência artificial ocorre localmente em sua máquina.
+* **Cálculos Determinísticos**: Garante 100% de precisão matemática ao usar Python para processar valores antes da interpretação da IA.
+* **Monitoramento de Metas**: Acompanhamento visual de objetivos como "Reserva de Emergência" e "Viagem ao Japão".
 
 ---
 
-### 2. Base de Conhecimento
+## 🛠️ Arquitetura do Sistema
 
-Utilize os **dados mockados** disponíveis na pasta [`data/`](./data/) para alimentar seu agente:
+O Nexus utiliza uma abordagem de **Arquitetura Híbrida** para evitar alucinações matemáticas comuns em modelos de linguagem.
 
-| Arquivo | Formato | Descrição |
-|---------|---------|-----------|
-| `transacoes.csv` | CSV | Histórico de transações do cliente |
-| `historico_atendimento.csv` | CSV | Histórico de atendimentos anteriores |
-| `perfil_investidor.json` | JSON | Perfil e preferências do cliente |
-| `produtos_financeiros.json` | JSON | Produtos e serviços disponíveis |
-
-Você pode adaptar ou expandir esses dados conforme seu caso de uso.
-
-📄 **Template:** [`docs/02-base-conhecimento.md`](./docs/02-base-conhecimento.md)
-
----
-
-### 3. Prompts do Agente
-
-Documente os prompts que definem o comportamento do seu agente:
-
-- **System Prompt:** Instruções gerais de comportamento e restrições
-- **Exemplos de Interação:** Cenários de uso com entrada e saída esperada
-- **Tratamento de Edge Cases:** Como o agente lida com situações limite
-
-📄 **Template:** [`docs/03-prompts.md`](./docs/03-prompts.md)
-
----
-
-### 4. Aplicação Funcional
-
-Desenvolva um **protótipo funcional** do seu agente:
-
-- Chatbot interativo (sugestão: Streamlit, Gradio ou similar)
-- Integração com LLM (via API ou modelo local)
-- Conexão com a base de conhecimento
-
-📁 **Pasta:** [`src/`](./src/)
-
----
-
-### 5. Avaliação e Métricas
-
-Descreva como você avalia a qualidade do seu agente:
-
-**Métricas Sugeridas:**
-- Precisão/assertividade das respostas
-- Taxa de respostas seguras (sem alucinações)
-- Coerência com o perfil do cliente
-
-📄 **Template:** [`docs/04-metricas.md`](./docs/04-metricas.md)
-
----
-
-### 6. Pitch
-
-Grave um **pitch de 3 minutos** (estilo elevador) apresentando:
-
-- Qual problema seu agente resolve?
-- Como ele funciona na prática?
-- Por que essa solução é inovadora?
-
-📄 **Template:** [`docs/05-pitch.md`](./docs/05-pitch.md)
-
----
-
-## Ferramentas Sugeridas
-
-Todas as ferramentas abaixo possuem versões gratuitas:
-
-| Categoria | Ferramentas |
-|-----------|-------------|
-| **LLMs** | [ChatGPT](https://chat.openai.com/), [Copilot](https://copilot.microsoft.com/), [Gemini](https://gemini.google.com/), [Claude](https://claude.ai/), [Ollama](https://ollama.ai/) |
-| **Desenvolvimento** | [Streamlit](https://streamlit.io/), [Gradio](https://www.gradio.app/), [Google Colab](https://colab.research.google.com/) |
-| **Orquestração** | [LangChain](https://www.langchain.com/), [LangFlow](https://www.langflow.org/), [CrewAI](https://www.crewai.com/) |
-| **Diagramas** | [Mermaid](https://mermaid.js.org/), [Draw.io](https://app.diagrams.net/), [Excalidraw](https://excalidraw.com/) |
-
----
-
-## Estrutura do Repositório
+```mermaid
+flowchart TD
+    A[Usuário] -->|Input Conversacional| B[Interface Streamlit]
+    B --> C{Orquestrador Python}
+    D[(Dados Mockados: CSV/JSON)] -->|Leitura Pandas| C
+    C --> F[Prompt Contextualizado + Dados]
+    F --> G[LLM local: Gemma 3 via Ollama]
+    G --> H[Validação de Dados]
+    H -->|Resposta Processada e Validada| B
 
 ```
-📁 lab-agente-financeiro/
-│
-├── 📄 README.md
-│
-├── 📁 data/                          # Dados mockados para o agente
-│   ├── historico_atendimento.csv     # Histórico de atendimentos (CSV)
-│   ├── perfil_investidor.json        # Perfil do cliente (JSON)
-│   ├── produtos_financeiros.json     # Produtos disponíveis (JSON)
-│   └── transacoes.csv                # Histórico de transações (CSV)
-│
-├── 📁 docs/                          # Documentação do projeto
-│   ├── 01-documentacao-agente.md     # Caso de uso e arquitetura
-│   ├── 02-base-conhecimento.md       # Estratégia de dados
-│   ├── 03-prompts.md                 # Engenharia de prompts
-│   ├── 04-metricas.md                # Avaliação e métricas
-│   └── 05-pitch.md                   # Roteiro do pitch
-│
-├── 📁 src/                           # Código da aplicação
-│   └── app.py                        # (exemplo de estrutura)
-│
-├── 📁 assets/                        # Imagens e diagramas
-│   └── ...
-│
-└── 📁 examples/                      # Referências e exemplos
-    └── README.md
+
+### Componentes Técnicos:
+
+* **Interface**: Dashboard em Streamlit.
+* **LLM**: Ollama rodando o modelo `gemma3:4b`.
+* **Base de Conhecimento**: Arquivos `perfil_usuario.json` e `transacoes.csv`.
+* **Validação**: Checagem de alucinações e lógica via Pandas.
+
+---
+
+## 🚀 Guia de Desenvolvimento
+
+O projeto foi construído seguindo cinco fases principais:
+
+1. **Idealização e Persona**: Definição do Nexus como um mentor consultivo e analítico.
+2. **Estrutura de Dados**: Criação de mocks em JSON e CSV para garantir privacidade e testabilidade.
+3. **Orquestrador de Dados**: Implementação da lógica de agregação com Pandas para alimentar a IA com dados prontos.
+4. **Integração com IA**: Configuração do System Prompt e diretrizes de resposta para manter o foco financeiro.
+5. **Interface Moderna**: Desenvolvimento de UI em modo escuro com métricas e gráficos Plotly.
+
+---
+
+## 📁 Estrutura do Repositório
+
+```text
+/
+├── data/                          # Dados mockados para o agente
+│   ├── perfil_usuario.json        # Perfil, metas e limites
+│   └── transacoes.csv             # Histórico de transações
+├── docs/                          # Documentação detalhada
+│   ├── 01-documentacao-agente.md  # Caso de uso e arquitetura
+│   ├── 02-base-conhecimento.md    # Estratégia de integração
+│   ├── 03-prompts.md              # Engenharia de prompts
+│   ├── 04-metricas.md             # Plano de avaliação
+│   └── 05-pitch.md                # Roteiro da apresentação
+├── src/                           # Código fonte
+│   └── app.py                     # Aplicação principal Streamlit
+└── requirements.txt               # Dependências do projeto
+
 ```
 
 ---
 
-## Dicas Finais
+## ⚙️ Como Rodar o Projeto
 
-1. **Comece pelo prompt:** Um bom system prompt é a base de um agente eficaz
-2. **Use os dados mockados:** Eles garantem consistência e evitam problemas com dados sensíveis
-3. **Foque na segurança:** No setor financeiro, evitar alucinações é crítico
-4. **Teste cenários reais:** Simule perguntas que um cliente faria de verdade
-5. **Seja direto no pitch:** 3 minutos passam rápido, vá ao ponto
+### Pré-requisitos
+
+1. **Python 3.10+** instalado.
+2. **Ollama** instalado e rodando o modelo gemma:
+```bash
+ollama pull gemma3:4b
+
+```
+
+
+
+### Instalação
+
+1. Instale as dependências:
+```bash
+pip install -r src/requirements.txt
+
+```
+
+
+2. Inicie a aplicação:
+```bash
+streamlit run src/app.py
+
+```
+
+
+
+---
+
+## 📊 Avaliação e Métricas
+
+O Nexus é avaliado com base em quatro pilares fundamentais:
+
+* **Assertividade**: Respostas baseadas nos valores corretos do CSV/JSON.
+* **Segurança**: Recusa em responder sobre temas fora do escopo financeiro ou dados inexistentes.
+* **Coerência**: Sugestões alinhadas ao perfil de risco "Moderado" do usuário.
+* **Proatividade**: Capacidade de alertar sobre limites orçamentários próximos ao estouro.
+
+---
+
+> **Nota**: Este projeto foi desenvolvido como parte de um desafio prático de IA Generativa na DIO.
