@@ -16,6 +16,7 @@ src/
 streamlit
 pandas
 requests
+plotly
 ```
 
 ## Como Rodar
