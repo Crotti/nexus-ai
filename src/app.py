@@ -2,11 +2,12 @@ import pandas as pd
 import json
 import requests
 import streamlit as st
+import plotly.express as px
 
 # ============= CONSTANTES ============== #
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODELO = "gemma3:1b"
+MODELO = "gemma3:4b"
 
 # ============= CARREGAR DADOS ================ #
 
@@ -112,6 +113,7 @@ REGRAS DE COMPORTAMENTO:
 6. Seja conciso e suscinto, mantendo a cordialidade porém com clareza e direção na resposta.
 7. Jamais responda perguntas fora do tema financeiro.
 8. Responda sempre em português.
+9. Se for questionado por tipos de investimento, sugira que o usuário procure um especialista do banco.
 
 DIRETRIZES DE RESPOSTA:
 - Use negrito para destacar valores monetários e categorias.
@@ -190,7 +192,127 @@ col4.metric("Patrimônio", f"R$ {patrimonio:.2f}", delta=f"{saldo_mensal:.2f}", 
 
 st.divider()
 
+# ============= SEÇÃO DE GRÁFICOS ================ #
+#with st.expander("📊 Clique para ver sua Análise de Comportamento", expanded=False):
+
+col_graf1, col_graf2 = st.columns(2)
+
+#with col_graf1:
+# 1. Gráfico de Pizza: Distribuição por Categoria
+st.subheader("Distribuição de Gastos")
+df_pizza = gastos.groupby('categoria')['valor'].sum().abs().reset_index()
+fig_pizza = px.pie(
+    df_pizza, 
+    values='valor', 
+    names='categoria', 
+    title="",
+    hole=0.4,
+    color_discrete_sequence=px.colors.qualitative.Pastel
+)
+fig_pizza.update_layout(template="plotly_dark", showlegend=True)
+st.plotly_chart(fig_pizza, use_container_width=True)
+
+#with col_graf2:
+st.divider()
+st.subheader("Fluxo de Saídas Diárias")
+# 2. Gráfico de Linha: Evolução de Gastos no Tempo
+df_tempo = df.copy()
+df_tempo['data'] = pd.to_datetime(df_tempo['data'])
+
+# Filtrar apenas gastos e agrupar por dia
+gastos_tempo = df_tempo[df_tempo['valor'] < 0].groupby('data')['valor'].sum().abs().reset_index()
+
+# Removido o argumento 'render_mode' que causava o erro
+fig_linha = px.area(
+    gastos_tempo, 
+    x='data', 
+    y='valor', 
+    title="",
+    line_shape="spline"
+)
+
+# Estilização visual
+fig_linha.update_traces(line_color="#ff1900", fillcolor='rgba(255, 25, 0, 0.2)')
+fig_linha.update_layout(
+    template="plotly_dark", 
+    xaxis_title="Dia", 
+    yaxis_title="R$ Gasto",
+    margin=dict(l=20, r=20, t=40, b=20) # Ajuste de margens para caber melhor
+)
+st.plotly_chart(fig_linha, use_container_width=True)
+
+# ============= 3. GRÁFICO DE BARRAS PREMIUM: GASTOS VS LIMITES ================ #
+st.divider()
+st.subheader("Status dos Orçamentos")
+
+# 1. Preparação e Limpeza
+df_limites = pd.DataFrame({
+    'categoria': resumo_gastos.index,
+    'gasto': resumo_gastos.values
+})
+df_limites['limite'] = df_limites['categoria'].map(perfil['orcamento_mensal']['limites'])
+df_limites = df_limites.dropna(subset=['limite']).copy()
+df_limites['porcentagem'] = (df_limites['gasto'] / df_limites['limite']) * 100
+
+# 2. Lógica de Cores Discretas (Status)
+def definir_cor(p):
+    if p >= 90: return '#FF4B4B' # Vermelho (Estourou)
+    if p >= 70:  return '#FFAA00' # Laranja (Atenção)
+    return '#00D4FF'              # Azul Nexus (Normal)
+
+df_limites['cor'] = df_limites['porcentagem'].apply(definir_cor)
+
+# 3. Construção do Gráfico com Graph Objects para maior controle
+import plotly.graph_objects as go
+
+fig_premium = go.Figure()
+
+# Barra de Fundo (Representa os 100%)
+fig_premium.add_trace(go.Bar(
+    y=df_limites['categoria'],
+    x=[100] * len(df_limites),
+    orientation='h',
+    marker=dict(color='#262730'), # Cinza escuro discreto
+    hoverinfo='none',
+    showlegend=False
+))
+
+# Barra de Progresso Real
+fig_premium.add_trace(go.Bar(
+    y=df_limites['categoria'],
+    x=df_limites['porcentagem'],
+    orientation='h',
+    marker=dict(color=df_limites['cor']),
+    text=df_limites.apply(lambda r: f" R$ {r['gasto']:.0f} ({r['porcentagem']:.0f}%)", axis=1),
+    textposition='outside',
+    insidetextanchor='end',
+    showlegend=False
+))
+
+# 4. Ajustes de Layout Moderno
+fig_premium.update_layout(
+    barmode='overlay', # Sobrepõe as barras para efeito de progresso
+    template="plotly_dark",
+    plot_bgcolor='rgba(0,0,0,0)',
+    paper_bgcolor='rgba(0,0,0,0)',
+    xaxis=dict(
+        showgrid=False, 
+        zeroline=False, 
+        range=[0, 125], # Espaço para o texto
+        showticklabels=False
+    ),
+    yaxis=dict(showgrid=False, autorange="reversed"),
+    margin=dict(l=0, r=0, t=30, b=0),
+    height=350,
+    font=dict(family="Inter, sans-serif", size=14)
+)
+
+st.plotly_chart(fig_premium, use_container_width=True)
+
 # ============= ÁREA DE CHAT ================ #
+
+st.divider()
+st.subheader("Chat com o NEXUS")
 
 # Inicializar histórico de chat se não existir
 if "messages" not in st.session_state:
@@ -204,7 +326,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # Entrada do usuário
-if pergunta := st.chat_input("Ex: Como está meu limite de Lazer?"):
+if pergunta := st.chat_input("Qual sua dúvida?"):
     # Adicionar mensagem do usuário
     st.session_state.messages.append({"role": "user", "content": pergunta})
     with st.chat_message("user", avatar="👤"):
