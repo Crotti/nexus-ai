@@ -4,7 +4,7 @@ O **Nexus** é um agente financeiro inteligente e proativo projetado para transf
 
 ---
 
-## 🌟 Funcionalidades Principais
+## Funcionalidades Principais
 
 * **Antecipação de Necessidades**: Identifica riscos de estourar orçamentos antes que aconteçam.
 * **Análise Visual Moderna**: Dashboards interativos com distribuição de gastos e fluxo de caixa diário.
@@ -14,7 +14,7 @@ O **Nexus** é um agente financeiro inteligente e proativo projetado para transf
 
 ---
 
-## 🛠️ Arquitetura do Sistema
+## Arquitetura do Sistema
 
 O Nexus utiliza uma abordagem de **Arquitetura Híbrida** para evitar alucinações matemáticas comuns em modelos de linguagem.
 
@@ -39,7 +39,7 @@ flowchart TD
 
 ---
 
-## 🚀 Guia de Desenvolvimento
+## Guia de Desenvolvimento
 
 O projeto foi construído seguindo cinco fases principais:
 
@@ -51,7 +51,7 @@ O projeto foi construído seguindo cinco fases principais:
 
 ---
 
-## 📁 Estrutura do Repositório
+## Estrutura do Repositório
 
 ```text
 /
@@ -63,7 +63,6 @@ O projeto foi construído seguindo cinco fases principais:
 │   ├── 02-base-conhecimento.md    # Estratégia de integração
 │   ├── 03-prompts.md              # Engenharia de prompts
 │   ├── 04-metricas.md             # Plano de avaliação
-│   └── 05-pitch.md                # Roteiro da apresentação
 ├── src/                           # Código fonte
 │   └── app.py                     # Aplicação principal Streamlit
 │   └── requirements.txt           # Dependências do projeto
@@ -72,7 +71,7 @@ O projeto foi construído seguindo cinco fases principais:
 
 ---
 
-## ⚙️ Como Rodar o Projeto
+## Como Rodar o Projeto
 
 ### Pré-requisitos
 
@@ -104,7 +103,7 @@ streamlit run src/app.py
 
 ---
 
-## 📊 Avaliação e Métricas
+## Avaliação e Métricas
 
 O Nexus é avaliado com base em quatro pilares fundamentais:
 
